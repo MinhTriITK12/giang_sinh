@@ -11,19 +11,31 @@ document.addEventListener('DOMContentLoaded', function() {
         startBtn.style.display = 'block'; // Hiện nút bắt đầu
     }, 3000);
 
+    // --- PHẦN ĐÃ SỬA ---
     // Khi bấm nút Start
     startBtn.addEventListener('click', () => {
+        
+        // 1. PHÁT NHẠC NGAY LẬP TỨC (Không được chờ đợi)
+        // Đây là "giấy phép" để trình duyệt cho phép phát nhạc
+        if (music) {
+            music.play().then(() => {
+                console.log("Nhạc đã phát!");
+            }).catch(error => {
+                console.log("Lỗi phát nhạc: ", error);
+            });
+        }
+
+        // 2. Sau đó mới làm hiệu ứng mờ màn hình
         loadingScreen.style.opacity = '0'; // Mờ dần
+
+        // 3. Đợi 1 giây cho mờ hẳn rồi mới ẩn và hiện quà
         setTimeout(() => {
-            loadingScreen.style.display = 'none'; // Ẩn hẳn
+            loadingScreen.style.display = 'none'; // Ẩn hẳn loading
             mainContent.classList.remove('hidden'); // Hiện nội dung chính
-            
-            // Phát nhạc (Trình duyệt yêu cầu phải có tương tác mới được phát nhạc)
-            music.play().catch(error => console.log("Không thể phát nhạc: ", error));
-            
             createSnow(); // Bắt đầu tạo tuyết
         }, 1000);
     });
+    // ------------------
 
     // Hiệu ứng mở thiệp khi click vào thiệp
     card.addEventListener('click', () => {
