@@ -1,0 +1,164 @@
+/* Cài đặt chung */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #990000; /* Màu đỏ Noel */
+    font-family: 'Dancing Script', cursive;
+    overflow: hidden; /* Không cho cuộn trang */
+    color: white;
+}
+
+/* --- Màn hình Loading --- */
+#loading-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: #b30000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    transition: opacity 1s ease;
+}
+
+.loader .circle {
+    width: 50px; height: 50px;
+    border: 5px solid rgba(255,255,255,0.3);
+    border-top: 5px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#start-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    background: white;
+    color: #990000;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    margin-top: 20px;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* --- Màn hình chính --- */
+#main-content.hidden {
+    display: none;
+}
+
+#main-content {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px; /* Quan trọng để tạo hiệu ứng 3D */
+}
+
+/* Hiệu ứng Tuyết rơi */
+.snowflake {
+    position: absolute;
+    top: -10px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to { transform: translateY(105vh); }
+}
+
+/* Trang trí xung quanh */
+.decoration {
+    position: absolute;
+    top: 5%;
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+    z-index: 0;
+}
+.santa { position: absolute; bottom: 20px; left: 20px; font-size: 60px; animation: bounce 2s infinite; }
+.tree { display: inline-block; animation: sway 3s ease-in-out infinite; }
+
+@keyframes sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+/* --- Tấm thiệp 3D --- */
+.card-container {
+    width: 300px;
+    height: 400px;
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1.5s;
+    position: relative;
+}
+
+/* Khi class .open được thêm vào (bằng JS) thì lật thiệp */
+.card.open {
+    transform: rotateY(-180deg);
+}
+
+.card-front, .card-inside {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Ẩn mặt sau */
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Mặt trước */
+.card-front {
+    background: linear-gradient(135deg, #ff4d4d, #990000);
+    border: 5px solid #fff;
+    z-index: 2;
+}
+.card-front h2 { font-size: 40px; margin-bottom: 10px; }
+.card-front .tree-icon { font-size: 80px; }
+
+/* Mặt trong (Nội dung) */
+.card-inside {
+    background: #fff;
+    color: #990000;
+    transform: rotateY(180deg); /* Xoay sẵn 180 độ */
+    text-align: center;
+    border: 5px solid #990000;
+}
+.card-inside h3 { font-size: 28px; margin: 0; }
+.card-inside p { font-size: 18px; margin: 10px 0; }
+.photo-box img {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 3px solid #990000;
+    object-fit: cover;
+    margin-top: 10px;
+}
